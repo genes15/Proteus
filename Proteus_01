@@ -1,0 +1,38 @@
+from proteus import config, Model, Wizard, Report
+
+config = config.set_trytond(database='SANTA_RITA', config_file='~/.venv/tryton/trytond.conf')
+print('inicia')
+
+Products = Model.get('product.template')
+Products2 = Model.get('product.product')
+
+productos=[
+'100022641',
+'100022881',
+'100033101',
+'100044133',
+]
+
+for producto in productos:
+       Product = Products.find([('code', '=',producto),])
+       Product2 = Products2.find([('code', '=',producto),])
+
+       for Prdts2 in Product2:
+              if not Prdts2:
+                     print('not found '+ Prdts2.code)
+              if Prdts2.active == True:
+                     Prdts2.active = False
+                     Products2.save(Product2)
+                     print(Prdts2.active)
+                     print('found '+ Prdts2.code)
+
+       for Prdts in Product:
+              if not Prdts:
+                     print('not found '+ Prdts.code)
+              if Prdts.active == True:
+                     Prdts.active = False
+                     Products.save(Product)
+                     print(Prdts.active)
+                     print('found '+ Prdts.code)
+
+print('finaliza')
