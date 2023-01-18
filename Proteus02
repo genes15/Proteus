@@ -1,0 +1,19 @@
+from proteus import config, Model, Wizard, Report
+import datetime
+
+config = config.set_trytond(database='RIKATAS', config_file='~/.venv/tryton/trytond.conf')
+print('inicia')
+
+Invoice = Model.get('account.invoice')
+TODAY = '2023-01-16'
+
+Invoices = Invoice.find([('state', '=','paid'),('invoice_date', '<=',TODAY),])
+
+for invoice in Invoices:
+       if invoice.reconciliation_lines:
+              pass
+       else:
+              print(invoice.id)
+
+
+print('finaliza')
