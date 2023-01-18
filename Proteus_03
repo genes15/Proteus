@@ -1,0 +1,23 @@
+from proteus import config, Model, Wizard, Report
+import datetime
+
+config = config.set_trytond(database='frigoecol', config_file='/home/yenez/Documentos/TT/tryton.conf')
+print('inicia')
+
+Invoice = Model.get('account.invoice')
+
+facturas = [
+       '455819'
+]
+asientos = []
+
+for factura in facturas:
+       Invoices = Invoice.find([('id', '=',factura),])
+       asientos.append(Invoices[0].lines_to_pay[0].move)
+print(asientos)
+
+for asiento in asientos:
+
+       with config.set_context(active_id=asiento.id):
+              w_move = Wizard('account.move.unreconcile', context=config.context, models=[asiento])
+print('finaliza')
