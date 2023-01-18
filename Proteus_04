@@ -1,0 +1,18 @@
+from proteus import config, Model, Wizard, Report
+import datetime
+
+config = config.set_trytond(database='frigoecol', config_file='/home/yenez/Documentos/TT/tryton.conf')
+print('inicia')
+
+Invoice = Model.get('account.invoice')
+
+facturas = [
+'458615'
+,'458614'
+]
+
+for factura in facturas:
+       Invoices, = Invoice.find([('id', '=',factura)])
+       Invoices.click('process')
+
+print('finaliza')
