@@ -1,0 +1,29 @@
+from proteus import config, Model, Wizard, Report
+import datetime
+
+config = config.set_trytond(database='frigoecol', config_file='/home/yenez/Documentos/TT/tryton.conf')
+print('inicia')
+
+Move = Model.get('account.move')
+
+asientos = [
+'1264024'
+,'1264023'
+]
+
+for asiento in asientos:
+       print(asiento)
+       Moves = Move.find([('id', '=',asiento)])
+       if not Moves:
+              pass
+       else:
+              for Move in Moves:
+                     with config.set_context(active_id=Move.id):
+                            w_move = Wizard('account.move.unreconcile', context=config.context, models=[Move])
+                            w_move = Wizard('account.move.force_draft', context=config.context, models=[Move])
+              Moves, = Move.find([('id', '=',asiento)])
+              if not Moves:
+                     pass
+              else:
+                     Moves.delete()
+print('finaliza')
